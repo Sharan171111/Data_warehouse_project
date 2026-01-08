@@ -108,7 +108,46 @@ data-warehouse-project/
 ├── .gitignore                          # Files and directories to be ignored by Git
 └── requirements.txt                    # Dependencies and requirements for the project
 ```
+
 ---
+
+## ⚡ How to Run the Project
+
+### Prerequisites
+- **SQL Server** installed locally.
+- **SQL Server Management Studio (SSMS)** or Azure Data Studio.
+
+### Step-by-Step Instructions
+
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/Sharan171111/Data_warehouse_project.git
+    ```
+
+2.  **Initialize the Database**
+    - Open `scripts/init_database.sql` in SSMS.
+    - Run the script to create the `DataWarehouse` database and schemas (`bronze`, `silver`, `gold`).
+
+3.  **Setup & Load Bronze Layer (Raw Data)**
+    - **Create Tables**: Run `scripts/bronze/ddl_bronze.sql`.
+    - **Load Data**: Open `scripts/bronze/proc_load_bronze.sql`.
+        - ⚠️ **Important**: Update the file paths in the `BULK INSERT` statements to point to the `datasets/` folder on your local machine.
+    - **Execute**: Run `EXEC bronze.load_bronze;`
+
+4.  **Setup & Load Silver Layer (Cleansed Data)**
+    - **Create Tables**: Run `scripts/silver/ddl_silver.sql`.
+    - **Load Data**: Run `scripts/silver/proc_load_silver.sql` to create the stored procedure.
+    - **Execute**: Run `EXEC silver.load_silver;`
+
+5.  **Setup Gold Layer (Reporting)**
+    - **Create Views**: Run `scripts/gold/ddl_gold.sql`.
+
+6.  **Explore Data**
+    - Query the final star schema:
+      ```sql
+      SELECT * FROM gold.dim_customers;
+      SELECT * FROM gold.fact_sales;
+      ```
 
 ## ☕ Stay Connected
 
